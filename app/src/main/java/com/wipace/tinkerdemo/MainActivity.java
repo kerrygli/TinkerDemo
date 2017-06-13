@@ -87,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 android.os.Process.killProcess(android.os.Process.myPid());
                 break;
             case R.id.id_btn_showInfo:
-                mTvInfo.setText("出现了一个bug！");
+                mTvInfo.setText("修復了一個bug！");
+//                mTvInfo.setText("出现了一个bug！");
                 break;
 
         }

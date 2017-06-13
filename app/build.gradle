@@ -1,8 +1,18 @@
 apply plugin: 'com.android.application'
 
+
+def javaVersion = JavaVersion.VERSION_1_8
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+    compileOptions {
+        sourceCompatibility javaVersion
+        targetCompatibility javaVersion
+    }
+    //recommend
+    dexOptions {
+        jumboMode = true //设置方法数65k限制通过编译
+    }
     defaultConfig {
         applicationId "com.wipace.tinkerdemo"
         minSdkVersion 14
@@ -11,7 +21,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        multiDexEnabled true //65k限制
+        multiDexEnabled true //配置為true，表示將dex分包，false则不分包
         /**
          * buildConfig can change during patch!
          * we can use the newly value when patch
@@ -25,12 +35,6 @@ android {
         buildConfigField "String", "TINKER_ID", "\"${getTinkerIdValue()}\""
         buildConfigField "String", "PLATFORM", "\"all\""
 
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 
     signingConfigs {
@@ -46,12 +50,29 @@ android {
         }
 
         debug {
-            storeFile file("./keystore/wipace_game_store.jks")
-            storePassword "wipace123"
-            keyAlias "wipace_game_key"
-            keyPassword "wipace602"
+            storeFile file("./keystore/debug.keystore")
         }
     }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+
 }
 
 def bakPath = file("${buildDir}/bakApk/")
@@ -66,12 +87,20 @@ ext {
 
     //for normal build
     //old apk file to build patch apk
-    tinkerOldApkPath = "${bakPath}/app-debug-1018-17-32-47.apk"
+/*    tinkerOldApkPath = "${bakPath}/app-debug-0613-16-11-40.apk"
     //proguard mapping file to build patch apk
     tinkerApplyMappingPath = "${bakPath}/app-debug-1018-17-32-47-mapping.txt"
     //resource R.txt to build patch apk, must input if there is resource changed
     tinkerApplyResourcePath = "${bakPath}/app-debug-1018-17-32-47-R.txt"
+    //only use for build all flavor, if not, just ignore this field
+    tinkerBuildFlavorDirectory = "${bakPath}/app-1018-17-32-47"*/
 
+    //old apk file to build patch apk
+    tinkerOldApkPath = "${bakPath}/app-release-0613-16-15-04.apk"
+    //proguard mapping file to build patch apk
+    tinkerApplyMappingPath = "${bakPath}/app-release-1018-17-32-47-mapping.txt"
+    //resource R.txt to build patch apk, must input if there is resource changed
+    tinkerApplyResourcePath = "${bakPath}/app-release-0613-16-15-04-R.txt"
     //only use for build all flavor, if not, just ignore this field
     tinkerBuildFlavorDirectory = "${bakPath}/app-1018-17-32-47"
 }

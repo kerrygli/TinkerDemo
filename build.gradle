@@ -22,3 +22,9 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+//生成debug包的gradle命令：gradle assembleDebug
+//生成差分包的gradle命令：tinkerPatchDebug
+
+//生成release包的gradle命令：gradle assembleRelease
+//生成差分包gradle命令:tinkerPatchRelease

@@ -25,12 +25,12 @@ import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tencent.tinker.lib.util.TinkerLog;
 import com.tencent.tinker.lib.util.UpgradePatchRetry;
 import com.tencent.tinker.loader.app.ApplicationLike;
+import com.wipace.tinkerdemo.crash.SampleUncaughtExceptionHandler;
+import com.wipace.tinkerdemo.reporter.SampleLoadReporter;
+import com.wipace.tinkerdemo.reporter.SamplePatchListener;
+import com.wipace.tinkerdemo.reporter.SamplePatchReporter;
+import com.wipace.tinkerdemo.service.SampleResultService;
 
-import tinker.sample.android.crash.SampleUncaughtExceptionHandler;
-import tinker.sample.android.reporter.SampleLoadReporter;
-import tinker.sample.android.reporter.SamplePatchListener;
-import tinker.sample.android.reporter.SamplePatchReporter;
-import tinker.sample.android.service.SampleResultService;
 
 /**
  * Created by zhangshaowen on 16/7/3.
